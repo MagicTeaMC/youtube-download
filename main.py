@@ -14,7 +14,7 @@ from fastapi.responses import JSONResponse
 from youtubesearchpython.__future__ import VideosSearch
 
 app = FastAPI(redoc_url=None)
-user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 OPR/111.0.0.0"
+user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15"
 cache = {}
 
 
@@ -41,9 +41,11 @@ def tick():
             os.remove(f".video-cache/{v['i']}")
             del cache[k]
 
+
 @app.get("/")
 async def get():
     return {"hello": "world"}
+
 
 @app.get("/api/v2/youtube")
 async def api_v2_youtube_mp4(q: str):
@@ -103,3 +105,7 @@ async def api_v2_youtube_mp4(q: str):
         make_cache(q, vid)
 
     return Response(vid, media_type="video/mp4")
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=30001)
